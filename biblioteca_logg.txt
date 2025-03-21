@@ -1,0 +1,319 @@
+MariaDB [(none)]> CREATE DATABASE IF NOT EXISTS libreria;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> USE libreria;
+Database changed
+MariaDB [libreria]> 
+MariaDB [libreria]> CREATE TABLE materia (
+    ->   id INT PRIMARY KEY AUTO_INCREMENT,
+    ->   nombre CHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> CREATE TABLE libro (
+    ->   id INT PRIMARY KEY AUTO_INCREMENT,
+    ->   descripcion CHAR(100) NOT NULL,
+    ->   nropagina INT NOT NULL,
+    ->   precio INT NOT NULL,
+    ->   id_materia INT NOT NULL,
+    ->   FOREIGN KEY (id_materia) REFERENCES materia(id) ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.006 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> CREATE TABLE autor (
+    ->   id INT PRIMARY KEY AUTO_INCREMENT,
+    ->   nombre CHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> CREATE TABLE editorial (
+    ->   id INT PRIMARY KEY AUTO_INCREMENT,
+    ->   nombre CHAR(50) NOT NULL
+    -> );
+Query OK, 0 rows affected (0.005 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> CREATE TABLE liautedi (
+    ->   id INT PRIMARY KEY AUTO_INCREMENT,
+    ->   id_libro INT NOT NULL,
+    ->   id_autor INT NOT NULL,
+    ->   id_editorial INT NOT NULL,
+    ->   FOREIGN KEY (id_libro) REFERENCES libro(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ->   FOREIGN KEY (id_autor) REFERENCES autor(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    ->   FOREIGN KEY (id_editorial) REFERENCES editorial(id) ON DELETE CASCADE ON UPDATE CASCADE
+    -> );
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> INSERT INTO materia (nombre) VALUES 
+    -> ('Calculo'),
+    -> ('Matematicas'),
+    -> ('Estructura de datos'),
+    -> ('Ingl'),
+    -> ('Diagramacion'),
+    -> ('Contabilidad'),
+    -> ('Redes'),
+    -> ('Sistemas de Inf.'),
+    -> ('Base de datos');
+Query OK, 9 rows affected (0.002 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+MariaDB [libreria]> 
+MariaDB [libreria]> INSERT INTO autor (nombre) VALUES 
+    -> ('Luis Joyanes'),
+    -> ('Jorge Vasquez Posada'),
+    -> ('Jhon Soars'),
+    -> ('Riaz Khadem'),
+    -> ('Robert Lorber'),
+    -> ('Mario Dream');
+Query OK, 6 rows affected (0.002 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+MariaDB [libreria]> 
+MariaDB [libreria]> INSERT INTO editorial (nombre) VALUES 
+    -> ('Oveja Negra'),
+    -> ('Norma'),
+    -> ('Mc Graw Hill');
+Query OK, 3 rows affected (0.002 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+MariaDB [libreria]> 
+MariaDB [libreria]> INSERT INTO libro (descripcion, nropagina, precio, id_materia) VALUES 
+    -> ('Calculo II', 120, 55000, 1),
+    -> ('BD II', 150, 65000, 9),
+    -> ('Estructura de datos', 180, 85000, 3),
+    -> ('Diagramacion', 85, 45000, 8),
+    -> ('Admon en una pagina', 70, 7500, 5),
+    -> ('Contabilidad I', 170, 27500, 6),
+    -> ('Redes', 370, 32500, 7),
+    -> ('Ingles', 280, 105000, 4);
+Query OK, 8 rows affected (0.003 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [libreria]> 
+MariaDB [libreria]> INSERT INTO liautedi (id_libro, id_autor, id_editorial) VALUES 
+    -> (2, 1, 1),
+    -> (2, 5, 3),
+    -> (6, 2, 2),
+    -> (7, 5, 3),
+    -> (4, 4, 1),
+    -> (4, 4, 2),
+    -> (4, 4, 3);
+Query OK, 7 rows affected (0.002 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro;
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  1 | Calculo II          |       120 |  55000 |          1 |
+|  2 | BD II               |       150 |  65000 |          9 |
+|  3 | Estructura de datos |       180 |  85000 |          3 |
+|  4 | Diagramacion        |        85 |  45000 |          8 |
+|  5 | Admon en una pagina |        70 |   7500 |          5 |
+|  6 | Contabilidad I      |       170 |  27500 |          6 |
+|  7 | Redes               |       370 |  32500 |          7 |
+|  8 | Ingles              |       280 | 105000 |          4 |
++----+---------------------+-----------+--------+------------+
+8 rows in set (0.001 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM autor;
++----+----------------------+
+| id | nombre               |
++----+----------------------+
+|  1 | Luis Joyanes         |
+|  2 | Jorge Vasquez Posada |
+|  3 | Jhon Soars           |
+|  4 | Riaz Khadem          |
+|  5 | Robert Lorber        |
+|  6 | Mario Dream          |
++----+----------------------+
+6 rows in set (0.001 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM editorial;
++----+--------------+
+| id | nombre       |
++----+--------------+
+|  1 | Oveja Negra  |
+|  2 | Norma        |
+|  3 | Mc Graw Hill |
++----+--------------+
+3 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM materia;
++----+---------------------+
+| id | nombre              |
++----+---------------------+
+|  1 | Calculo             |
+|  2 | Matematicas         |
+|  3 | Estructura de datos |
+|  4 | Ingl                |
+|  5 | Diagramacion        |
+|  6 | Contabilidad        |
+|  7 | Redes               |
+|  8 | Sistemas de Inf.    |
+|  9 | Base de datos       |
++----+---------------------+
+9 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT descripcion, precio FROM libro;
++---------------------+--------+
+| descripcion         | precio |
++---------------------+--------+
+| Calculo II          |  55000 |
+| BD II               |  65000 |
+| Estructura de datos |  85000 |
+| Diagramacion        |  45000 |
+| Admon en una pagina |   7500 |
+| Contabilidad I      |  27500 |
+| Redes               |  32500 |
+| Ingles              | 105000 |
++---------------------+--------+
+8 rows in set (0.001 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> RENAME TABLE materia TO asignatura;
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE descripcion LIKE '%redes%';
++----+-------------+-----------+--------+------------+
+| id | descripcion | nropagina | precio | id_materia |
++----+-------------+-----------+--------+------------+
+|  7 | Redes       |       370 |  32500 |          7 |
++----+-------------+-----------+--------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE descripcion LIKE '%t%';
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  3 | Estructura de datos |       180 |  85000 |          3 |
+|  6 | Contabilidad I      |       170 |  27500 |          6 |
++----+---------------------+-----------+--------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE descripcion LIKE '%s';
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  3 | Estructura de datos |       180 |  85000 |          3 |
+|  7 | Redes               |       370 |  32500 |          7 |
+|  8 | Ingles              |       280 | 105000 |          4 |
++----+---------------------+-----------+--------+------------+
+3 rows in set (0.001 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE descripcion LIKE 'c%';
++----+----------------+-----------+--------+------------+
+| id | descripcion    | nropagina | precio | id_materia |
++----+----------------+-----------+--------+------------+
+|  1 | Calculo II     |       120 |  55000 |          1 |
+|  6 | Contabilidad I |       170 |  27500 |          6 |
++----+----------------+-----------+--------+------------+
+2 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE id IN (3, 4, 5);
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  3 | Estructura de datos |       180 |  85000 |          3 |
+|  4 | Diagramacion        |        85 |  45000 |          8 |
+|  5 | Admon en una pagina |        70 |   7500 |          5 |
++----+---------------------+-----------+--------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE id BETWEEN 2 AND 6;
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  2 | BD II               |       150 |  65000 |          9 |
+|  3 | Estructura de datos |       180 |  85000 |          3 |
+|  4 | Diagramacion        |        85 |  45000 |          8 |
+|  5 | Admon en una pagina |        70 |   7500 |          5 |
+|  6 | Contabilidad I      |       170 |  27500 |          6 |
++----+---------------------+-----------+--------+------------+
+5 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE nropagina >= 100 AND precio >= 65000;
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  2 | BD II               |       150 |  65000 |          9 |
+|  3 | Estructura de datos |       180 |  85000 |          3 |
+|  8 | Ingles              |       280 | 105000 |          4 |
++----+---------------------+-----------+--------+------------+
+3 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE descripcion = 'Redes';
++----+-------------+-----------+--------+------------+
+| id | descripcion | nropagina | precio | id_materia |
++----+-------------+-----------+--------+------------+
+|  7 | Redes       |       370 |  32500 |          7 |
++----+-------------+-----------+--------+------------+
+1 row in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT descripcion, nropagina, precio FROM libro WHERE precio > 50000;
++---------------------+-----------+--------+
+| descripcion         | nropagina | precio |
++---------------------+-----------+--------+
+| Calculo II          |       120 |  55000 |
+| BD II               |       150 |  65000 |
+| Estructura de datos |       180 |  85000 |
+| Ingles              |       280 | 105000 |
++---------------------+-----------+--------+
+4 rows in set (0.000 sec)
+
+MariaDB [libreria]> 
+MariaDB [libreria]> 
+MariaDB [libreria]> SELECT * FROM libro WHERE nropaginaÿ<ÿ160;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ÿ<ÿ160' at line 1
+MariaDB [libreria]> SELECT * FROM libro WHERE nropaginaÿ<ÿ160;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ÿ<ÿ160' at line 1
+MariaDB [libreria]> SELECT * FROM libro WHERE nropaginaÿ<ÿ160;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ÿ<ÿ160' at line 1
+MariaDB [libreria]> SELECT * FROM libro WHERE nropaginaÿ<ÿ160;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ÿ<ÿ160' at line 1
+MariaDB [libreria]> SELECT * FROM libro WHERE nropaginaÿ<ÿ160;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'ÿ<ÿ160' at line 1
+MariaDB [libreria]> SELECT * FROM libro WHERE nropagina <160;
++----+---------------------+-----------+--------+------------+
+| id | descripcion         | nropagina | precio | id_materia |
++----+---------------------+-----------+--------+------------+
+|  1 | Calculo II          |       120 |  55000 |          1 |
+|  2 | BD II               |       150 |  65000 |          9 |
+|  4 | Diagramacion        |        85 |  45000 |          8 |
+|  5 | Admon en una pagina |        70 |   7500 |          5 |
++----+---------------------+-----------+--------+------------+
+4 rows in set (0.001 sec)
+
+MariaDB [libreria]> 
